@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>리뷰 & 아카이빙 허브</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Mobile-first Review Hub</p>
+        <h1>리뷰 & 아카이빙 허브</h1>
+        <p class="subtitle">읽고, 보고, 기록하고. 손글씨 드로잉 톤의 깔끔한 기록 공간.</p>
+      </div>
+      <div class="header-actions">
+        <button class="ghost" id="export-btn">CSV 내보내기</button>
+        <button class="primary" id="open-form-btn">빠른 기록</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="summary">
+        <div class="summary-card">
+          <p class="label">이번 달 완료</p>
+          <h2 id="month-count">0</h2>
+          <span class="hint">권/편 합산</span>
+        </div>
+        <div class="summary-card">
+          <p class="label">평균 평점</p>
+          <h2 id="month-rating">0.0</h2>
+          <span class="hint">1 ~ 5</span>
+        </div>
+        <div class="summary-card">
+          <p class="label">기록 속도</p>
+          <h2>&lt; 60s</h2>
+          <span class="hint">목표 기준</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>책장 (그룹)</h3>
+            <p class="subtitle">내가 만든 그룹별로 콘텐츠를 모아보세요.</p>
+          </div>
+          <div class="filters">
+            <select id="group-filter">
+              <option value="all">전체 그룹</option>
+            </select>
+            <button class="ghost pill" id="clear-group-btn">필터 해제</button>
+          </div>
+        </div>
+        <div class="shelf-grid" id="shelf-grid"></div>
+        <p class="panel-footnote">책장을 누르면 해당 그룹으로 바로 필터됩니다.</p>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>최근 기록</h3>
+            <p class="subtitle">내가 읽고 본 콘텐츠를 카드로 확인하세요.</p>
+          </div>
+          <div class="filters">
+            <select id="type-filter">
+              <option value="all">전체</option>
+              <option value="book">책</option>
+              <option value="movie">영화</option>
+              <option value="drama">드라마</option>
+            </select>
+            <select id="entry-group-filter">
+              <option value="all">전체 그룹</option>
+            </select>
+            <input type="search" id="search-input" placeholder="제목 검색" />
+          </div>
+        </div>
+        <div class="group-chips" id="group-chips"></div>
+        <div id="entries" class="entries"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-header">
+          <div>
+            <h3>통계</h3>
+            <p class="subtitle">월/분기/연도별로 나의 기록을 확인합니다.</p>
+          </div>
+          <div class="filters">
+            <button class="tab active" data-period="month">월간</button>
+            <button class="tab" data-period="quarter">분기</button>
+            <button class="tab" data-period="year">연도</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="stats-grid"></div>
+      </section>
+    </main>
+
+    <div class="modal" id="entry-modal" aria-hidden="true">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>빠른 기록</h3>
+          <button class="ghost" id="close-form-btn">닫기</button>
+        </div>
+        <form id="entry-form">
+          <label>
+            제목
+            <input type="text" name="title" required placeholder="예: 데미안" />
+          </label>
+          <label>
+            유형
+            <select name="type" required>
+              <option value="book">책</option>
+              <option value="movie">영화</option>
+              <option value="drama">드라마</option>
+            </select>
+          </label>
+          <label>
+            완료일
+            <input type="date" name="completedAt" required />
+          </label>
+          <label>
+            그룹(책장)
+            <input type="text" name="group" placeholder="예: 2024 필독, 힐링" list="group-suggestions" />
+          </label>
+          <label>
+            평점 (1~5)
+            <input type="number" name="rating" min="1" max="5" step="0.5" required />
+          </label>
+          <label>
+            한줄평
+            <textarea name="review" rows="3" placeholder="짧은 코멘트를 남겨주세요."></textarea>
+          </label>
+          <button class="primary" type="submit">저장하기</button>
+        </form>
+      </div>
+    </div>
+
+    <template id="entry-card">
+      <article class="entry-card">
+        <div>
+          <p class="entry-type"></p>
+          <h4 class="entry-title"></h4>
+          <p class="entry-review"></p>
+          <span class="entry-group"></span>
+        </div>
+        <div class="entry-meta">
+          <span class="entry-rating"></span>
+          <span class="entry-date"></span>
+        </div>
+      </article>
+    </template>
+
+    <datalist id="group-suggestions"></datalist>
+
+    <script src="app.js"></script>
+  </body>
+</html>
