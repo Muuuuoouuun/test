@@ -17,6 +17,7 @@ const groupSuggestions = document.getElementById("group-suggestions");
 const modal = document.getElementById("entry-modal");
 const openFormBtn = document.getElementById("open-form-btn");
 const closeFormBtn = document.getElementById("close-form-btn");
+const demoBtn = document.getElementById("demo-btn");
 const exportBtn = document.getElementById("export-btn");
 const tabs = document.querySelectorAll(".tab");
 
@@ -30,6 +31,36 @@ const typeLabels = {
   movie: "영화",
   drama: "드라마",
 };
+
+const demoEntries = [
+  {
+    id: "demo-1",
+    title: "데미안",
+    type: "book",
+    completedAt: new Date().toISOString().slice(0, 10),
+    rating: 4.5,
+    review: "고요하게 깊이 들어가는 이야기.",
+    group: "2024 필독",
+  },
+  {
+    id: "demo-2",
+    title: "인셉션",
+    type: "movie",
+    completedAt: new Date(Date.now() - 86400000 * 2).toISOString().slice(0, 10),
+    rating: 4,
+    review: "레이어가 겹치는 상상력.",
+    group: "SF",
+  },
+  {
+    id: "demo-3",
+    title: "오징어 게임",
+    type: "drama",
+    completedAt: new Date(Date.now() - 86400000 * 6).toISOString().slice(0, 10),
+    rating: 3.5,
+    review: "긴장감 있는 전개.",
+    group: "주말 정주행",
+  },
+];
 
 const formatDate = (value) => {
   if (!value) return "-";
@@ -343,5 +374,21 @@ const init = () => {
   renderStats();
   updateSummary();
 };
+
+demoBtn.addEventListener("click", () => {
+  const existingIds = new Set(state.entries.map((entry) => entry.id));
+  const freshEntries = demoEntries.filter((entry) => !existingIds.has(entry.id));
+  if (!freshEntries.length) {
+    alert("이미 샘플 기록이 있어요.");
+    return;
+  }
+  state.entries = [...freshEntries, ...state.entries];
+  saveEntries();
+  renderGroupFilters();
+  renderEntries();
+  renderShelves();
+  renderStats();
+  updateSummary();
+});
 
 init();
