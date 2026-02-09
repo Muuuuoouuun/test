@@ -182,6 +182,12 @@ button.pill {
   white-space: nowrap;
 }
 
+.chip.empty {
+  border-style: dashed;
+  color: var(--muted);
+  cursor: default;
+}
+
 .chip.active {
   border-color: var(--primary);
   background: #fff2e8;

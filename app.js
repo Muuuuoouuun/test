@@ -200,6 +200,10 @@ const renderGroupFilters = () => {
 };
 
 const renderGroupChips = (groups = getGroupList()) => {
+  if (!groups.length) {
+    groupChips.innerHTML = "<span class=\"chip empty\">그룹 없음</span>";
+    return;
+  }
   const items = ["all", ...groups];
   groupChips.innerHTML = items
     .map((group) => {
@@ -308,11 +312,12 @@ exportBtn.addEventListener("click", () => {
     return;
   }
   const rows = [
-    ["title", "type", "completedAt", "rating", "review"],
+    ["title", "type", "completedAt", "group", "rating", "review"],
     ...state.entries.map((entry) => [
       entry.title,
       entry.type,
       entry.completedAt,
+      entry.group || "",
       entry.rating,
       entry.review?.replaceAll("\n", " ") || "",
     ]),
